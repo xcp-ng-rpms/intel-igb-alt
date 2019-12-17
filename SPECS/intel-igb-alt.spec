@@ -4,17 +4,13 @@
 %define vf_param max_vfs
 %define vf_maxvfs 7
 
-# XCP-ng: we need this short version without any "+..." part
-# because override statements in /etc/depmod.d don't work with e.g. 4.4.0+10
-%define kernel_version_short %(echo %kernel_version | sed 's/\+.*//')
-
 # XCP-ng: install to the override directory
 %define module_dir override
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}-alt
 Version: 5.3.5.39
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 
 # Downloaded from https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-
@@ -53,10 +49,6 @@ version %{kernel_version}.
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+x
 
-# XCP-ng: override depmod configuration to give priority to our alternative driver
-mkdir -p %{buildroot}/etc/depmod.d
-echo "override %{module_name} %{kernel_version_short} %{module_dir}" > %{buildroot}/etc/depmod.d/%{module_name}-%{kernel_version_short}.conf
-
 %post
 /sbin/depmod %{kernel_version}
 %{regenerate_initrd_post}
@@ -70,9 +62,11 @@ echo "override %{module_name} %{kernel_version_short} %{module_dir}" > %{buildro
 
 %files
 /lib/modules/%{kernel_version}/*/*.ko
-/etc/depmod.d/%{module_name}-%{kernel_version_short}.conf
 
 %changelog
+* Tue Dec 17 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.3.5.39-2
+- Remove depmod configuration, unneeded since XCP-ng 8.0
+
 * Tue Nov 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.3.5.39-1
 - Update to 5.3.5.39
 - Initial package
