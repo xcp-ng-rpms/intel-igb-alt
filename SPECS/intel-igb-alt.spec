@@ -10,7 +10,7 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}-alt
 Version: 5.3.5.39
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 
 # Downloaded from https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-
@@ -64,6 +64,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Tue Jan 28 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.3.5.39-3
+- Rebuild for XCP-ng 8.1
+
 * Tue Dec 17 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.3.5.39-2
 - Remove depmod configuration, unneeded since XCP-ng 8.0
 
