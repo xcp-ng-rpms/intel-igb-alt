@@ -9,8 +9,8 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}-alt
-Version: 5.3.5.39
-Release: 4%{?dist}
+Version: 5.4.6
+Release: 1%{?dist}
 License: GPL
 
 # Downloaded from https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-
@@ -64,6 +64,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Wed Oct 28 2020 Rushikesh Jadhav <rushikesh7@gmail.com> - 5.4.6-1
+- Update to 5.4.6
+
 * Wed Aug 19 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.3.5.39-4
 - Rebuild for XCP-ng 8.2
 
