@@ -16,6 +16,8 @@ License: GPL
 # Downloaded from https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-
 Source0: igb-%{version}.tar.gz
 
+Patch1000: 0001-compat-support-kernel-4.19.291-skb_frag_off.patch
+
 BuildRequires: gcc
 BuildRequires: kernel-devel
 Provides: vendor-driver

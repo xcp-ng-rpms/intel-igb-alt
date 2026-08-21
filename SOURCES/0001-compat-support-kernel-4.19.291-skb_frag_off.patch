@@ -1,0 +1,42 @@
+From a596ccf38ff988e0ad78fa71004c1cdbd7c445b8 Mon Sep 17 00:00:00 2001
+From: Quentin Casasnovas <quentin.casasnovas@vates.tech>
+Date: Tue, 18 Aug 2026 11:49:53 +0200
+Subject: [PATCH] compat: support kernel > 4.19.291 (skb_frag_off).
+
+d94d95ae0dd0 ("gro: ensure frag0 meets IP header alignment") added the
+definition for skb_frag_off in a linux header, so no need to redefine it.
+
+This fixes a build error when using v4.19.325-cip134 headers to build this
+driver:
+
+  /home/builder/rpmbuild/BUILD/igb-5.4.6/src/kcompat.h:7140:28: error: redefinition of 'skb_frag_off'
+   static inline unsigned int skb_frag_off(const skb_frag_t *frag)
+			      ^
+  In file included from ./include/linux/tcp.h:21:0,
+		   from ./include/net/tcp.h:24,
+		   from /home/builder/rpmbuild/BUILD/igb-5.4.6/src/igb.h:12,
+		   from /home/builder/rpmbuild/BUILD/igb-5.4.6/src/igb_debugfs.c:4:
+  ./include/linux/skbuff.h:2818:28: note: previous definition of 'skb_frag_off' was here
+   static inline unsigned int skb_frag_off(const skb_frag_t *frag)
+
+Signed-off-by: Quentin Casasnovas <quentin.casasnovas@vates.tech>
+---
+ src/kcompat.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/kcompat.h b/src/kcompat.h
+index 6bdffaa41c6d..adda8bb4779c 100644
+--- a/src/kcompat.h
++++ b/src/kcompat.h
+@@ -7135,7 +7135,7 @@ devlink_flash_update_status_notify(struct devlink __always_unused *devlink,
+ 
+ /*****************************************************************************/
+ #if (LINUX_VERSION_CODE < KERNEL_VERSION(5,4,0))
+-#if (!(RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(8,2)) && \
++#if 0 && (!(RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(8,2)) && \
+      !(SLE_VERSION_CODE >= SLE_VERSION(15,2,0)))
+ static inline unsigned int skb_frag_off(const skb_frag_t *frag)
+ {
+-- 
+2.43.0
+
