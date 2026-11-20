@@ -10,7 +10,7 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}-alt
 Version: 5.4.6
-Release: 2.0.kernelpreview.1%{?dist}
+Release: 2.0.kernelpreview.1.0.testv0.1%{?dist}
 License: GPL
 
 # Downloaded from https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-
