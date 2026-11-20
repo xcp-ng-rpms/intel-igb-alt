@@ -10,14 +10,16 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}-alt
 Version: 5.4.6
-Release: 2%{?dist}
+Release: 2.0.kernelpreview.1%{?dist}
 License: GPL
 
 # Downloaded from https://downloadcenter.intel.com/download/13663/Intel-Network-Adapter-Driver-for-82575-6-82580-I350-and-I210-211-Based-Gigabit-Network-Connections-for-Linux-
 Source0: igb-%{version}.tar.gz
 
+Patch1000: compat-support-kernel-4.19.201-skb_frag_off.patch
+
 BuildRequires: gcc
-BuildRequires: kernel-devel
+BuildRequires: kernel-devel >= 4.19.325-cip137.8.0.46.16
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
 Requires(post): /usr/sbin/depmod
@@ -64,6 +66,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Mon Nov 16 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 5.4.6-2.0.kernelpreview.1
+- Rebuild for kernel v4.19.325-cip137
+
 * Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.4.6-2
 - Rebuild for XCP-ng 8.3
 
